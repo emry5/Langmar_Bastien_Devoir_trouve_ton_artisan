@@ -1,0 +1,85 @@
+.search {
+  padding: 60px 0;
+
+  &__title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 60px;
+  }
+
+  &__category {
+    padding: 40px;
+    margin-bottom: 60px;
+
+    border: 1px solid #ccc;
+    border-radius: 10px;
+
+    // Couleur par défaut
+    background-color: rgba(244, 162, 97, 0.25);
+
+    h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 35px;
+    }
+
+    // Bâtiment
+    &--batiment {
+      background-color: #00497c;
+      border: 3px solid #384050;
+      
+    
+    }
+
+    // Services
+    &--services {
+      background-color: #0074c7;
+      border: 3px solid #384050;
+    }
+
+    // Fabrication
+    &--fabrication {
+      background-color: #cd2c2e;
+      border: 3px solid #384050;
+    }
+
+    // Alimentation
+    &--alimentation {
+      background-color: #82b864;
+      border: 3px solid #384050;
+    }
+
+    // Tablette et mobile
+    @media (max-width: 991.98px) {
+      .col-12 {
+        margin-bottom: 25px;
+      }
+
+      .col-12:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Mobile
+  @media (max-width: 767.98px) {
+    padding: 40px 0;
+
+    &__title {
+      font-size: 1.7rem;
+      margin-bottom: 40px;
+    }
+
+    &__category {
+      padding: 30px 20px;
+      margin-bottom: 40px;
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+      }
+    }
+  }
+}

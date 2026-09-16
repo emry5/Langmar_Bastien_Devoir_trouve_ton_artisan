@@ -1,0 +1,54 @@
+@use "../../styles/variables";
+.footer {
+  background-color: variables.$header-footer-background;
+  color: white;
+  padding: 50px 0;
+
+  &__column {
+    padding: 0 30px;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 12px;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  address {
+    font-style: normal;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  @media (max-width: 767.98px) {
+    padding: 40px 0;
+
+    &__column {
+      padding: 0 20px;
+      margin-bottom: 30px;
+    }
+
+    &__column:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

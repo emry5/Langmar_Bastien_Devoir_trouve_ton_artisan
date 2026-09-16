@@ -1,0 +1,112 @@
+@use "../../styles/variables";
+
+.header {
+  background-color: variables.$header-footer-background;
+
+  .navbar {
+    min-height: 80px;
+    padding: 0 30px;
+  }
+
+  &__logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  .navbar-toggler {
+    border: 1px solid white;
+  }
+
+  .navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+  }
+
+  .navbar-collapse {
+    margin-left: 40px;
+  }
+
+  .navbar-nav {
+    display: flex;
+    gap: 15px;
+  }
+
+  .nav-link {
+    color: white;
+    font-weight: 500;
+
+    &:hover {
+      color: #f4a261;
+    }
+  }
+
+  &__search {
+    display: flex;
+    margin-left: auto;
+    margin-right: 20px;
+
+    input {
+      height: 40px;
+      padding: 0 15px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+    }
+
+    button {
+      height: 40px;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+  }
+
+  // Version mobile
+  @media (max-width: 991.98px) {
+    .navbar {
+      padding: 10px 15px;
+    }
+
+    // Logo à gauche
+    &__logo {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    // Recherche entre le logo et le burger
+    &__search {
+      margin-left: auto;
+      margin-right: 10px;
+      width: auto;
+
+      input {
+        width: 120px;
+      }
+
+      button {
+        padding: 0 10px;
+      }
+    }
+
+    // Menu déroulant
+    .navbar-collapse {
+      margin-left: 0;
+      padding-top: 15px;
+      width: 100%;
+    }
+
+    .navbar-nav {
+      align-items: center;
+      gap: 0;
+    }
+
+    .nav-link {
+      padding: 10px 0;
+    }
+  }
+}
