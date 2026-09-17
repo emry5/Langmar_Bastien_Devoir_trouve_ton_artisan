@@ -50,7 +50,10 @@ function Footer() {
               <br />
               France
               <br />
-              <a href="tel:+33426734000">
+              <a
+                href="tel:+33426734000"
+                aria-label="Appeler le 04 26 73 40 00"
+              >
                 +33 (0)4 26 73 40 00
               </a>
             </address>

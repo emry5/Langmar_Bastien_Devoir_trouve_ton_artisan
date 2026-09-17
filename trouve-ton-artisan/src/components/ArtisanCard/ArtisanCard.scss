@@ -1,20 +1,26 @@
+@use "../../styles/variables";
+
 .artisan-card {
   display: block;
   height: 100%;
+
   color: inherit;
   text-decoration: none;
 
   .card {
     height: 100%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
 
+    border: 1px solid grey;
+    border-radius: 6px;
+
+    box-shadow: 0 1px 3px variables.$text-dark;
     transition:
       transform 0.2s ease,
       box-shadow 0.2s ease,
       filter 0.1s ease;
   }
 
+  // Animation au survol
   &:hover {
     color: inherit;
 
@@ -24,6 +30,13 @@
     }
   }
 
+  // Accessibilité : navigation au clavier
+  &:focus-visible {
+    outline: 3px solid variables.$blue-primary;
+    outline-offset: 4px;
+  }
+
+  // Animation au clic
   &:active {
     .card {
       filter: brightness(0.9);
@@ -32,16 +45,43 @@
   }
 
   &__name {
+    color: variables.$blue-dark;
     font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 15px;
   }
 
+  // Notation
   &__rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
     margin-bottom: 20px;
+
+    span {
+      color: variables.$text-dark;
+      font-weight: 600;
+    }
+  }
+
+  &__stars {
+    display: flex;
+    gap: 3px;
+  }
+
+  &__star {
+    width: 24px;
+    height: 30px;
+  }
+
+  // Étoile non remplie
+  &__star--empty {
+    opacity: 0.25;
   }
 
   &__info {
+    color: variables.$text-dark;
     margin-bottom: 15px;
   }
 }

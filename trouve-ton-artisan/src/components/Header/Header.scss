@@ -1,33 +1,67 @@
 @use "../../styles/variables";
 
 .header {
-  background-color: variables.$header-footer-background;
+  background-color: white;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 2px 8px variables.$text-dark;
 
   .navbar {
     min-height: 80px;
     padding: 0 30px;
   }
 
+  // Logo
   &__logo {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
 
-    &:hover {
-      color: white;
+    margin-right: 40px;
+
+    img {
+      display: block;
+      width: 300px;
+      height: auto;
+      max-width: 100%;
+    }
+
+    &:focus-visible {
+      outline: 3px solid variables.$blue-primary;
+      outline-offset: 4px;
     }
   }
 
+  // Bouton menu mobile
   .navbar-toggler {
-    border: 1px solid white;
+    border: 1px solid variables.$blue-dark;
+
+    transition:
+      transform 0.2s ease,
+      filter 0.1s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 3px solid variables.$blue-primary;
+      outline-offset: 3px;
+    }
+
+    &:active {
+      filter: brightness(0.9);
+      transform: translateY(0);
+    }
   }
 
+  // Icône du menu hamburger
   .navbar-toggler-icon {
-    filter: brightness(0) invert(1);
+    filter: none;
   }
 
+  // Navigation
   .navbar-collapse {
-    margin-left: 40px;
+    margin-left: auto;
   }
 
   .navbar-nav {
@@ -35,50 +69,113 @@
     gap: 15px;
   }
 
+  // Boutons de navigation
   .nav-link {
+    display: inline-block;
+
+    padding: 8px 15px;
+
+    background-color: variables.$blue-primary;
     color: white;
-    font-weight: 500;
+
+    border-radius: 12px;
+
+    font-weight: 700;
+    text-decoration: none;
+
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease,
+      filter 0.1s ease;
 
     &:hover {
-      color: #f4a261;
+      color: white;
+      background-color: variables.$blue-dark;
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 3px solid variables.$blue-primary;
+      outline-offset: 3px;
+    }
+
+    &:active {
+      filter: brightness(0.9);
+      transform: translateY(1px);
     }
   }
 
+  // Barre de recherche
   &__search {
     display: flex;
-    margin-left: auto;
-    margin-right: 20px;
+    margin-left: 0;
 
     input {
       height: 40px;
       padding: 0 15px;
-      border: none;
+
+      border: 1px solid variables.$text-dark;
       border-radius: 5px 0 0 5px;
+
       outline: none;
+
+      &:focus-visible {
+        outline: 3px solid variables.$blue-primary;
+        outline-offset: 2px;
+      }
     }
 
     button {
       height: 40px;
-      border: none;
       padding: 0 15px;
+
+      background-color: white;
+      color: variables.$blue-dark;
+
+      border: 1px solid variables.$blue-dark;
+      border-left: none;
       border-radius: 0 5px 5px 0;
+
       cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        filter 0.1s ease,
+        background-color 0.2s ease,
+        color 0.2s ease;
+
+      &:hover {
+        background-color: variables.$blue-primary;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      &:focus-visible {
+        outline: 3px solid variables.$blue-primary;
+        outline-offset: 3px;
+      }
+
+      &:active {
+        filter: brightness(0.9);
+        transform: translateY(1px);
+      }
     }
   }
 
-  // Version mobile
+  // Tablette et mobile
   @media (max-width: 991.98px) {
     .navbar {
       padding: 10px 15px;
     }
 
-    // Logo à gauche
     &__logo {
       margin-right: 10px;
-      font-size: 1.2rem;
+
+      img {
+        width: 220px;
+      }
     }
 
-    // Recherche entre le logo et le burger
     &__search {
       margin-left: auto;
       margin-right: 10px;
@@ -93,7 +190,6 @@
       }
     }
 
-    // Menu déroulant
     .navbar-collapse {
       margin-left: 0;
       padding-top: 15px;
@@ -102,11 +198,83 @@
 
     .navbar-nav {
       align-items: center;
-      gap: 0;
+      gap: 8px;
     }
 
     .nav-link {
-      padding: 10px 0;
+      width: 100%;
+      max-width: 250px;
+      padding: 10px 15px;
+
+      text-align: center;
+    }
+  }
+
+  // Desktop
+  @media (min-width: 992px) {
+    .navbar-collapse {
+      margin-left: auto;
+      flex-grow: 0;
+    }
+
+    .navbar-nav {
+      margin-right: 30px;
+    }
+
+    &__search {
+      margin-left: 0;
+      margin-right: 30px;
+
+      input {
+        width: 250px;
+      }
+    }
+  }
+
+  // Petit mobile
+  @media (max-width: 575.98px) {
+    .navbar {
+      padding: 10px;
+    }
+
+    &__logo {
+      margin-right: 5px;
+
+      img {
+        width: 150px;
+      }
+    }
+
+    &__search {
+      margin-right: 5px;
+
+      input {
+        width: 90px;
+        min-width: 0;
+      }
+
+      button {
+        padding: 0 8px;
+      }
+    }
+
+    .navbar-toggler {
+      flex-shrink: 0;
+    }
+
+    .navbar-collapse {
+      width: 100%;
+    }
+
+    .navbar-nav {
+      width: 100%;
+      align-items: center;
+    }
+
+    .nav-link {
+      width: 100%;
+      max-width: 250px;
+      padding: 10px 15px;
     }
   }
 }

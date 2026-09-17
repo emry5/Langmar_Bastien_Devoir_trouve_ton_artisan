@@ -1,0 +1,273 @@
+@use "../../styles/variables";
+
+.artisan-detail {
+  padding: 60px 0;
+  background-color: variables.$background-light;
+
+  &__card {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+
+    background-color: white;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  }
+
+  // En-tête de la fiche
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 50px;
+
+    h1 {
+      color: variables.$blue-dark;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: variables.$text-dark;
+      margin-bottom: 12px;
+    }
+
+    // Photo de l'artisan uniquement
+    > div:last-child img {
+      width: 250px;
+      height: 200px;
+      object-fit: cover;
+    }
+  }
+
+  // Note
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+    color: variables.$text-dark;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  // Étoiles
+  &__stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  &__star {
+    display: block;
+    width: 24px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  // Rubrique À propos
+  &__about {
+    padding: 30px;
+    margin-bottom: 40px;
+
+    background-color: variables.$background-light;
+
+    h2 {
+      color: variables.$blue-dark;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: variables.$text-dark;
+      line-height: 1.7;
+      margin: 0;
+    }
+  }
+
+  // Formulaire de contact
+  &__contact {
+    margin-bottom: 40px;
+
+    h2 {
+      color: variables.$blue-dark;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      display: block;
+      color: variables.$text-dark;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input,
+    textarea {
+    width: 100%;
+    padding: 12px 15px;
+
+    border: 1px solid variables.$text-dark;
+    border-radius: 5px;
+
+    font-family: inherit;
+    font-size: 1rem;
+
+    &[aria-invalid="true"] {
+        border-color: variables.$red;
+    }
+
+    &:focus {
+        outline: 3px solid variables.$blue-primary;
+        outline-offset: 2px;
+        border-color: variables.$blue-dark;
+    }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      align-self: flex-start;
+
+      padding: 12px 25px;
+
+      background-color: variables.$blue-dark;
+      color: white;
+
+      border: none;
+      border-radius: 5px;
+
+      font-weight: 600;
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        filter 0.1s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      &:focus-visible {
+        outline: 3px solid variables.$blue-primary;
+        outline-offset: 3px;
+      }
+
+      &:active {
+        filter: brightness(0.9);
+        transform: translateY(0);
+      }
+    }
+  }
+
+  // Site web
+  &__website {
+    padding-top: 30px;
+    border-top: 1px solid variables.$text-dark;
+
+    h2 {
+      color: variables.$blue-dark;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: variables.$blue-dark;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        outline: 3px solid variables.$blue-primary;
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  // Tablette
+  @media (max-width: 991.98px) {
+    padding: 40px 0;
+
+    &__card {
+      padding: 30px;
+    }
+
+    &__header {
+      gap: 25px;
+
+      > div:last-child img {
+        width: 200px;
+        height: 170px;
+      }
+    }
+  }
+
+  // Mobile
+  @media (max-width: 767.98px) {
+    padding: 30px 0;
+
+    &__card {
+      padding: 20px;
+    }
+
+    &__header {
+      flex-direction: column-reverse;
+      align-items: center;
+      text-align: center;
+      gap: 25px;
+      margin-bottom: 35px;
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      > div:last-child img {
+        width: 180px;
+        height: 150px;
+      }
+    }
+
+    &__rating {
+      justify-content: center;
+    }
+
+    &__about {
+      padding: 20px;
+    }
+
+    &__contact {
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    &__website {
+      h2 {
+        font-size: 1.3rem;
+      }
+    }
+  }
+}

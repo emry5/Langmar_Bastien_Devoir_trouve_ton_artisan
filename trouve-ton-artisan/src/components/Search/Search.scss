@@ -1,57 +1,67 @@
+@use "../../styles/variables";
+
 .search {
-  padding: 60px 0;
+  padding: 40px 0;
 
   &__title {
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 700;
-    margin-bottom: 60px;
+    color: variables.$text-dark;
+    margin-bottom: 40px;
   }
 
   &__category {
-    padding: 40px;
-    margin-bottom: 60px;
-
-    border: 1px solid #ccc;
+    padding: 30px 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 8px variables.$text-dark;
+    border: 1px solid variables.$text-dark;
     border-radius: 10px;
-
-    // Couleur par défaut
-    background-color: rgba(244, 162, 97, 0.25);
 
     h2 {
       text-align: center;
-      font-size: 1.7rem;
+      color: variables.$text-dark;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
     }
 
-    // Bâtiment
     &--batiment {
-      background-color: #00497c;
-      border: 3px solid #384050;
-      
-    
+      background-color: color-mix(
+        in srgb,
+        variables.$blue-dark 40%,
+        white
+      );
+      border: 1px solid variables.$text-dark;
     }
 
-    // Services
     &--services {
-      background-color: #0074c7;
-      border: 3px solid #384050;
+      background-color: color-mix(
+        in srgb,
+        variables.$blue-primary 40%,
+        white
+      );
+      border: 1px solid variables.$text-dark;
     }
 
-    // Fabrication
     &--fabrication {
-      background-color: #cd2c2e;
-      border: 3px solid #384050;
+      background-color: color-mix(
+        in srgb,
+        variables.$red 40%,
+        white
+      );
+      border: 1px solid variables.$text-dark;
     }
 
-    // Alimentation
     &--alimentation {
-      background-color: #82b864;
-      border: 3px solid #384050;
+      background-color: color-mix(
+        in srgb,
+        variables.$green 40%,
+        white
+      );
+      border: 1px solid variables.$text-dark;
     }
 
-    // Tablette et mobile
     @media (max-width: 991.98px) {
       .col-12 {
         margin-bottom: 25px;
@@ -63,22 +73,21 @@
     }
   }
 
-  // Mobile
-  @media (max-width: 767.98px) {
-    padding: 40px 0;
+  @media (min-width: 768px) {
+    padding: 60px 0;
 
     &__title {
-      font-size: 1.7rem;
-      margin-bottom: 40px;
+      font-size: 2rem;
+      margin-bottom: 60px;
     }
 
     &__category {
-      padding: 30px 20px;
-      margin-bottom: 40px;
+      padding: 40px;
+      margin-bottom: 60px;
 
       h2 {
-        font-size: 1.5rem;
-        margin-bottom: 30px;
+        font-size: 1.7rem;
+        margin-bottom: 35px;
       }
     }
   }

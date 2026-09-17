@@ -1,84 +1,131 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/icons/Logo.png";
 import "./Header.scss";
 
 function Header() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [menuOuvert, setMenuOuvert] = useState(false);
 
-    return (
-        <header className="header">
-        <nav className="navbar navbar-expand-lg">
-            <div className="container-fluid">
+  return (
+    <header className="header">
+      <nav
+        className="navbar navbar-expand-lg"
+        aria-label="Navigation principale"
+      >
+        <div className="container-fluid">
 
-            {/* Logo */}
-            <a className="navbar-brand header__logo" href="/">
-                Trouve ton artisan
-            </a>
-
-            {/* Barre de recherche */}
-            <form
-                className="header__search"
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    navigate("/recherche");
-                }}
+          {/* Logo */}
+            <Link
+                className="navbar-brand header__logo"
+                to="/"
+                aria-label="Trouve ton artisan - Accueil"
                 >
-                <input
-                    type="search"
-                    placeholder="Rechercher..."
-                    aria-label="Rechercher"
+                <img
+                    src={logo}
+                    alt="Trouve ton artisan"
                 />
+            </Link>
 
-                <button type="submit" aria-label="Rechercher">
-                    🔍
-                </button>
-                </form>
-
-            {/* Bouton burger */}
-            <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar"
-                aria-expanded="false"
-                aria-label="Ouvrir le menu"
+          {/* Barre de recherche */}
+          <form
+            className="header__search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              navigate("/recherche");
+            }}
+            role="search"
+          >
+            <label
+              htmlFor="header-search"
+              className="visually-hidden"
             >
-                <span className="navbar-toggler-icon"></span>
+              Rechercher un artisan
+            </label>
+
+            <input
+              id="header-search"
+              type="search"
+              placeholder="Rechercher..."
+              name="search"
+            />
+
+            <button
+              type="submit"
+              aria-label="Lancer la recherche"
+            >
+              🔍
             </button>
+          </form>
 
-            {/* Menu déroulant */}
-            <div className="collapse navbar-collapse" id="mainNavbar">
-                <ul className="navbar-nav">
-                <li className="nav-item">
-                    <a className="nav-link" href="/batiment">
-                    Bâtiment
-                    </a>
-                </li>
+          {/* Bouton menu mobile */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded={menuOuvert}
+            aria-label={
+              menuOuvert
+                ? "Fermer le menu"
+                : "Ouvrir le menu"
+            }
+            onClick={() => setMenuOuvert(!menuOuvert)}
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="/services">
-                    Services
-                    </a>
-                </li>
+          {/* Navigation */}
+          <div
+            className="collapse navbar-collapse"
+            id="mainNavbar"
+          >
+            <ul className="navbar-nav">
 
-                <li className="nav-item">
-                    <a className="nav-link" href="/fabrication">
-                    Fabrication
-                    </a>
-                </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/recherche#batiment"
+                >
+                  Bâtiment
+                </Link>
+              </li>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="/alimentation">
-                    Alimentation
-                    </a>
-                </li>
-                </ul>
-            </div>
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/recherche#services"
+                >
+                  Services
+                </Link>
+              </li>
 
-            </div>
-        </nav>
-        </header>
-    );
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/recherche#fabrication"
+                >
+                  Fabrication
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/recherche#alimentation"
+                >
+                  Alimentation
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+    </header>
+  );
 }
 
 export default Header;

@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
 import "./ArtisanCard.scss";
+
+import ratingIcon from "../../assets/icons/rating.svg";
 
 function ArtisanCard({
   id,
@@ -7,21 +10,45 @@ function ArtisanCard({
   specialty,
   location
 }) {
+  const ratingValue = Number.parseInt(rating, 10);
+
   return (
-    <a
-      href={`/artisans/${id}`}
+    <Link
+      to={`/artisans/${id}`}
       className="artisan-card"
+      aria-label={`Voir la fiche de ${name}`}
     >
-      <div className="card">
+      <article className="card">
         <div className="card-body">
 
           <h3 className="artisan-card__name">
             {name}
           </h3>
 
-          <p className="artisan-card__rating">
-            ⭐⭐⭐⭐⭐ {rating}
-          </p>
+          <div
+            className="artisan-card__rating"
+            aria-label={`Note : ${rating}`}
+          >
+            <div
+              className="artisan-card__stars"
+              aria-hidden="true"
+            >
+              {[1, 2, 3, 4, 5].map((star) => (
+                <img
+                  key={star}
+                  src={ratingIcon}
+                  alt=""
+                  className={
+                    star <= ratingValue
+                      ? "artisan-card__star"
+                      : "artisan-card__star artisan-card__star--empty"
+                  }
+                />
+              ))}
+            </div>
+
+            <span>{rating}</span>
+          </div>
 
           <p className="artisan-card__info">
             <strong>Spécialité :</strong>
@@ -36,8 +63,8 @@ function ArtisanCard({
           </p>
 
         </div>
-      </div>
-    </a>
+      </article>
+    </Link>
   );
 }
 

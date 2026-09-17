@@ -12,7 +12,10 @@ function Search() {
         </h1>
 
         {/* Bâtiment */}
-        <section className="search__category search__category--batiment">
+        <section
+            id="batiment"
+            className="search__category search__category--batiment"
+        >
           <h2>Bâtiment</h2>
 
           <div className="row">
@@ -51,7 +54,10 @@ function Search() {
         </section>
 
         {/* Services */}
-        <section className="search__category search__category--services">
+        <section
+            id="services"
+            className="search__category search__category--services"
+        >
           <h2>Services</h2>
 
           <div className="row">
@@ -90,7 +96,10 @@ function Search() {
         </section>
 
         {/* Fabrication */}
-        <section className="search__category search__category--fabrication">
+        <section
+            id="fabrication"
+            className="search__category search__category--fabrication"
+        >
           <h2>Fabrication</h2>
 
           <div className="row">
@@ -129,7 +138,10 @@ function Search() {
         </section>
 
         {/* Alimentation */}
-        <section className="search__category search__category--alimentation">
+        <section
+            id="alimentation"
+            className="search__category search__category--alimentation"
+        >
           <h2>Alimentation</h2>
 
           <div className="row">

@@ -1,6 +1,6 @@
 @use "../../styles/variables";
 .footer {
-  background-color: variables.$header-footer-background;
+  background-color: variables.$blue-primary;
   color: white;
   padding: 50px 0;
 
@@ -24,14 +24,20 @@
     margin-bottom: 12px;
   }
 
-  a {
-    color: white;
-    text-decoration: none;
+a {
+  color: white;
+  text-decoration: none;
 
-    &:hover {
-      text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
   }
+
+  &:focus-visible {
+    outline: 3px solid #f4a261;
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+}
 
   address {
     font-style: normal;

@@ -6,6 +6,13 @@ import "./styles/main.scss";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import favicon from "./assets/icons/favicon.png";
+
+const faviconLink = document.querySelector("link[rel='icon']");
+
+if (faviconLink) {
+  faviconLink.href = favicon;
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
