@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./ArtisanDetail.scss";
 import ratingIcon from "../../assets/icons/rating.svg";
 
 function ArtisanDetail() {
+  const { id } = useParams();
+
+  const [artisan, setArtisan] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,6 +19,34 @@ function ArtisanDetail() {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    const fetchArtisan = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/api/artisans/${id}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Artisan introuvable.");
+        }
+
+        const data = await response.json();
+
+        setArtisan(data);
+      } catch (error) {
+        console.error(error);
+        setError(
+          "Impossible de récupérer les informations de l'artisan."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArtisan();
+  }, [id]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -46,11 +81,13 @@ function ArtisanDetail() {
     }
 
     if (!formData.subject.trim()) {
-      newErrors.subject = "Veuillez renseigner l'objet du message.";
+      newErrors.subject =
+        "Veuillez renseigner l'objet du message.";
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Veuillez renseigner votre message.";
+      newErrors.message =
+        "Veuillez renseigner votre message.";
     } else if (formData.message.trim().length < 10) {
       newErrors.message =
         "Votre message doit contenir au moins 10 caractères.";
@@ -59,7 +96,7 @@ function ArtisanDetail() {
     return newErrors;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const newErrors = validateForm();
@@ -70,58 +107,128 @@ function ArtisanDetail() {
       return;
     }
 
+    setSending(true);
     setErrors({});
-    setSubmitted(true);
+    setSubmitted(false);
 
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+    try {
+      const response = await fetch(
+        "http://localhost:5001/api/contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            artisanId: artisan.id,
+            nom: formData.name.trim(),
+            email: formData.email.trim(),
+            objet: formData.subject.trim(),
+            message: formData.message.trim(),
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Erreur lors de l'envoi du message."
+        );
+      }
+
+      setSubmitted(true);
+
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+
+      setErrors({
+        form:
+          "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.",
+      });
+    } finally {
+      setSending(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <main className="artisan-detail">
+        <div className="container">
+          <p role="status">
+            Chargement de la fiche artisan...
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !artisan) {
+    return (
+      <main className="artisan-detail">
+        <div className="container">
+          <p role="alert">
+            {error || "Artisan introuvable."}
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  const rating = Number(artisan.note);
 
   return (
     <main className="artisan-detail">
       <div className="container">
         <section className="artisan-detail__card">
-
           <div className="artisan-detail__header">
             <div>
-              <h1>Martin Construction</h1>
+              <h1>{artisan.nom}</h1>
 
               <div className="artisan-detail__rating">
                 <div
                   className="artisan-detail__stars"
                   role="img"
-                  aria-label="Note : 5 sur 5"
+                  aria-label={`Note : ${rating} sur 5`}
                 >
                   {[1, 2, 3, 4, 5].map((star) => (
                     <img
                       key={star}
                       src={ratingIcon}
                       alt=""
-                      className="artisan-detail__star"
+                      className={`artisan-detail__star ${
+                        star <= rating
+                          ? ""
+                          : "artisan-detail__star--empty"
+                      }`}
                     />
                   ))}
                 </div>
 
-                <span>5/5</span>
+                <span>{rating}/5</span>
               </div>
 
               <p>
-                <strong>Spécialité :</strong> Maçonnerie
+                <strong>Spécialité :</strong>{" "}
+                {artisan.specialite}
               </p>
 
               <p>
-                <strong>Localisation :</strong> Lyon
+                <strong>Localisation :</strong>{" "}
+                {artisan.localisation}
               </p>
             </div>
 
             <div>
               <img
                 src="/images/artisan.jpg"
-                alt="Martin Construction"
+                alt={`Illustration de ${artisan.nom}`}
               />
             </div>
           </div>
@@ -130,8 +237,8 @@ function ArtisanDetail() {
             <h2>À propos</h2>
 
             <p>
-              Martin Construction est une entreprise spécialisée
-              dans les travaux de maçonnerie et de rénovation.
+              {artisan.description ||
+                `${artisan.nom} est spécialisé dans ${artisan.specialite}.`}
             </p>
           </section>
 
@@ -143,12 +250,20 @@ function ArtisanDetail() {
                 className="artisan-detail__success"
                 role="status"
               >
-                Votre message a bien été pris en compte.
+                Votre message a bien été envoyé.
+              </p>
+            )}
+
+            {errors.form && (
+              <p
+                className="artisan-detail__error"
+                role="alert"
+              >
+                {errors.form}
               </p>
             )}
 
             <form onSubmit={handleSubmit} noValidate>
-
               <div>
                 <label htmlFor="name">
                   Nom
@@ -218,7 +333,9 @@ function ArtisanDetail() {
                   onChange={handleChange}
                   aria-invalid={Boolean(errors.subject)}
                   aria-describedby={
-                    errors.subject ? "subject-error" : undefined
+                    errors.subject
+                      ? "subject-error"
+                      : undefined
                   }
                 />
 
@@ -246,7 +363,9 @@ function ArtisanDetail() {
                   onChange={handleChange}
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={
-                    errors.message ? "message-error" : undefined
+                    errors.message
+                      ? "message-error"
+                      : undefined
                   }
                 />
 
@@ -261,25 +380,29 @@ function ArtisanDetail() {
                 )}
               </div>
 
-              <button type="submit">
-                Envoyer
+              <button type="submit" disabled={sending}>
+                {sending ? "Envoi en cours..." : "Envoyer"}
               </button>
-
             </form>
           </section>
 
           <section className="artisan-detail__website">
             <h2>Site web</h2>
 
-            <a
-              href="https://example.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Visiter le site de l'artisan
-            </a>
+            {artisan.siteWeb ? (
+              <a
+                href={artisan.siteWeb}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Visiter le site de l'artisan
+              </a>
+            ) : (
+              <p>
+                Le site web de cet artisan n'est pas renseigné.
+              </p>
+            )}
           </section>
-
         </section>
       </div>
     </main>

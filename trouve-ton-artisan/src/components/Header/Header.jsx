@@ -29,13 +29,20 @@ function Header() {
 
           {/* Barre de recherche */}
           <form
-            className="header__search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              navigate("/recherche");
-            }}
-            role="search"
-          >
+                className="header__search"
+                onSubmit={(event) => {
+                    event.preventDefault();
+
+                    const searchValue = event.target.elements.search.value.trim();
+
+                    navigate(
+                    searchValue
+                        ? `/recherche?search=${encodeURIComponent(searchValue)}`
+                        : "/recherche"
+                    );
+                }}
+                role="search"
+                >
             <label
               htmlFor="header-search"
               className="visually-hidden"

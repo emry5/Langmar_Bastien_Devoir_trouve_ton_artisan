@@ -1,186 +1,152 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./Search.scss";
 import ArtisanCard from "../ArtisanCard/ArtisanCard";
 
 function Search() {
+  const [searchParams] = useSearchParams();
+  const searchValue = searchParams.get("search") || "";
+
+  const [artisans, setArtisans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchArtisans = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/artisans"
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Erreur lors de la récupération des artisans."
+          );
+        }
+
+        const data = await response.json();
+
+        setArtisans(data);
+      } catch (error) {
+        console.error(error);
+        setError("Impossible de récupérer les artisans.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArtisans();
+  }, []);
+
+  const categories = [
+    {
+      id: "batiment",
+      name: "Bâtiment",
+      value: "Bâtiment",
+    },
+    {
+      id: "services",
+      name: "Services",
+      value: "Services",
+    },
+    {
+      id: "fabrication",
+      name: "Fabrication",
+      value: "Fabrication",
+    },
+    {
+      id: "alimentation",
+      name: "Alimentation",
+      value: "Alimentation",
+    },
+  ];
+
+  if (loading) {
+    return (
+      <main className="search">
+        <div className="container">
+          <p role="status">Chargement des artisans...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="search">
+        <div className="container">
+          <p role="alert">{error}</p>
+        </div>
+      </main>
+    );
+  }
+
+  const search = searchValue.toLowerCase().trim();
+
+  const filteredArtisans = artisans.filter((artisan) => {
+    if (!search) {
+      return true;
+    }
+
+    return (
+      artisan.nom.toLowerCase().includes(search) ||
+      artisan.specialite.toLowerCase().includes(search) ||
+      artisan.localisation.toLowerCase().includes(search)
+    );
+  });
+
   return (
     <main className="search">
-
       <div className="container">
-
         <h1 className="search__title">
           Les artisans par catégorie
         </h1>
 
-        {/* Bâtiment */}
-        <section
-            id="batiment"
-            className="search__category search__category--batiment"
-        >
-          <h2>Bâtiment</h2>
+        {searchValue && (
+          <p>
+            Résultats pour : <strong>{searchValue}</strong>
+          </p>
+        )}
 
-          <div className="row">
+        {searchValue && filteredArtisans.length === 0 && (
+          <p role="status">
+            Aucun artisan ne correspond à votre recherche.
+          </p>
+        )}
 
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="1"
-                name="Martin Construction"
-                rating="5/5"
-                specialty="Maçonnerie"
-                location="Lyon"
-              />
-            </div>
+        {categories.map((category) => {
+          const artisansCategory = filteredArtisans.filter(
+            (artisan) => artisan.categorie === category.value
+          );
 
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="2"
-                name="Dupont Rénovation"
-                rating="4/5"
-                specialty="Plomberie"
-                location="Villeurbanne"
-              />
-            </div>
+          return (
+            <section
+              key={category.id}
+              id={category.id}
+              className={`search__category search__category--${category.id}`}
+            >
+              <h2>{category.name}</h2>
 
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="3"
-                name="Électricité Rhône"
-                rating="5/5"
-                specialty="Électricité"
-                location="Bron"
-              />
-            </div>
-
-          </div>
-        </section>
-
-        {/* Services */}
-        <section
-            id="services"
-            className="search__category search__category--services"
-        >
-          <h2>Services</h2>
-
-          <div className="row">
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="4"
-                name="Martin Coiffure"
-                rating="5/5"
-                specialty="Coiffure"
-                location="Lyon"
-              />
-            </div>
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="5"
-                name="Nettoyage Pro"
-                rating="4/5"
-                specialty="Nettoyage"
-                location="Caluire-et-Cuire"
-              />
-            </div>
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="6"
-                name="Services Express"
-                rating="5/5"
-                specialty="Réparation"
-                location="Oullins"
-              />
-            </div>
-
-          </div>
-        </section>
-
-        {/* Fabrication */}
-        <section
-            id="fabrication"
-            className="search__category search__category--fabrication"
-        >
-          <h2>Fabrication</h2>
-
-          <div className="row">
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="7"
-                name="Atelier du Bois"
-                rating="5/5"
-                specialty="Menuiserie"
-                location="Lyon"
-              />
-            </div>
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="8"
-                name="Créations Métal"
-                rating="4/5"
-                specialty="Métallerie"
-                location="Vénissieux"
-              />
-            </div>
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="9"
-                name="Atelier Créatif"
-                rating="5/5"
-                specialty="Création artisanale"
-                location="Tassin-la-Demi-Lune"
-              />
-            </div>
-
-          </div>
-        </section>
-
-        {/* Alimentation */}
-        <section
-            id="alimentation"
-            className="search__category search__category--alimentation"
-        >
-          <h2>Alimentation</h2>
-
-          <div className="row">
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="10"
-                name="Boulangerie du Centre"
-                rating="5/5"
-                specialty="Boulangerie"
-                location="Lyon"
-              />
-            </div>
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="11"
-                name="La Ferme du Rhône"
-                rating="4/5"
-                specialty="Produits fermiers"
-                location="Brignais"
-              />
-            </div>
-
-            <div className="col-12 col-lg-4">
-              <ArtisanCard
-                id="12"
-                name="Le Gourmet Lyonnais"
-                rating="5/5"
-                specialty="Traiteur"
-                location="Lyon"
-              />
-            </div>
-
-          </div>
-        </section>
-
+              <div className="row">
+                {artisansCategory.map((artisan) => (
+                  <div
+                    className="col-12 col-lg-4"
+                    key={artisan.id}
+                  >
+                    <ArtisanCard
+                      id={artisan.id}
+                      name={artisan.nom}
+                      rating={`${Number(artisan.note)}/5`}
+                      specialty={artisan.specialite}
+                      location={artisan.localisation}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
-
     </main>
   );
 }
