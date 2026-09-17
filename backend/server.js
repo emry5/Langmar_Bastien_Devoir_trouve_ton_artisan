@@ -14,7 +14,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
 app.use("/api/artisans", artisansRoutes);
 app.use("/api/contact", contactRoutes);
