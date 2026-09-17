@@ -79,7 +79,7 @@ function Home() {
                 <h2>4. Une réponse sous 48h</h2>
 
                 <p>
-                  Obtenez une réponse sous 48h.
+                  Obtenez une réponse sous 48 h.
                 </p>
               </div>
             </div>
@@ -98,7 +98,7 @@ function Home() {
 
           <div className="row">
 
-            <div className="col-12 col-md-6 col-lg-4">
+            <div className="col-12 col-md-4">
               <ArtisanCard
                 id="1"
                 name="Martin Construction"
@@ -108,7 +108,7 @@ function Home() {
               />
             </div>
 
-            <div className="col-12 col-md-6 col-lg-4">
+            <div className="col-12 col-md-4">
               <ArtisanCard
                 id="2"
                 name="Dupont Rénovation"
@@ -118,7 +118,7 @@ function Home() {
               />
             </div>
 
-            <div className="col-12 col-md-6 col-lg-4">
+            <div className="col-12 col-md-4">
               <ArtisanCard
                 id="3"
                 name="Électricité Rhône"

@@ -42,6 +42,7 @@ function Header() {
                     );
                 }}
                 role="search"
+                aria-label="Rechercher un artisan"
                 >
             <label
               htmlFor="header-search"
@@ -80,7 +81,8 @@ function Header() {
             }
             onClick={() => setMenuOuvert(!menuOuvert)}
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"
+                aria-hidden="true"></span>
           </button>
 
           {/* Navigation */}

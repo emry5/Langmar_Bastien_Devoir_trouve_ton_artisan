@@ -25,7 +25,7 @@ function ArtisanDetail() {
     const fetchArtisan = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5001/api/artisans/${id}`
+          `http://laba8455.odns.fr/api/artisans/${id}`
         );
 
         if (!response.ok) {
@@ -113,7 +113,7 @@ function ArtisanDetail() {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/contact",
+        "http://laba8455.odns.fr/api/contact",
         {
           method: "POST",
           headers: {
@@ -242,8 +242,10 @@ function ArtisanDetail() {
             </p>
           </section>
 
-          <section className="artisan-detail__contact">
-            <h2>Contacter l'artisan</h2>
+          <section 
+            className="artisan-detail__contact"
+            aria-labelledby="contact-title">
+            <h2 id="contact-title">Contacter l'artisan</h2>
 
             {submitted && (
               <p
@@ -275,6 +277,7 @@ function ArtisanDetail() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  required
                   aria-invalid={Boolean(errors.name)}
                   aria-describedby={
                     errors.name ? "name-error" : undefined
@@ -303,6 +306,7 @@ function ArtisanDetail() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  required
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={
                     errors.email ? "email-error" : undefined
@@ -331,6 +335,7 @@ function ArtisanDetail() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
+                  required
                   aria-invalid={Boolean(errors.subject)}
                   aria-describedby={
                     errors.subject
@@ -361,6 +366,7 @@ function ArtisanDetail() {
                   rows="5"
                   value={formData.message}
                   onChange={handleChange}
+                  required
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={
                     errors.message

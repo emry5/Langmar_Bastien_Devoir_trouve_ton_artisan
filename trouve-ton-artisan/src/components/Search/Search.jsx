@@ -14,9 +14,7 @@ function Search() {
   useEffect(() => {
     const fetchArtisans = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5001/api/artisans"
-        );
+        const response = await fetch("http://laba8455.odns.fr/api/artisans");
 
         if (!response.ok) {
           throw new Error(

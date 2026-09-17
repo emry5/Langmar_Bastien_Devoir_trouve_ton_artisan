@@ -1,4 +1,5 @@
 import "./Footer.scss";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -12,27 +13,27 @@ function Footer() {
 
             <ul>
               <li>
-                <a href="/mentions-legales">
+                <Link to="/mentions-legales">
                   Mentions légales
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="/donnees-personnelles">
+                <Link to="/donnees-personnelles">
                   Données personnelles
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="/accessibilite">
+                <Link to="/accessibilite">
                   Accessibilité
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="/cookies">
+                <Link to="/cookies">
                   Cookies
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -52,7 +53,6 @@ function Footer() {
               <br />
               <a
                 href="tel:+33426734000"
-                aria-label="Appeler le 04 26 73 40 00"
               >
                 +33 (0)4 26 73 40 00
               </a>
