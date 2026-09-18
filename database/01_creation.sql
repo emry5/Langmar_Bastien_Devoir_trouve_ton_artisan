@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS artisans (
     specialite VARCHAR(150) NOT NULL,
     categorie VARCHAR(50) NOT NULL,
     localisation VARCHAR(150) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     note DECIMAL(2,1) NOT NULL,
     description TEXT NULL,
     siteWeb VARCHAR(255) NULL,

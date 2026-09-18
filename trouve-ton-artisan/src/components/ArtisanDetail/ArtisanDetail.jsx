@@ -112,8 +112,7 @@ function ArtisanDetail() {
     setSubmitted(false);
 
     try {
-      const response = await fetch(
-        "http://laba8455.odns.fr/api/contact",
+      const response = await fetch("http://localhost:5001/api/contact",
         {
           method: "POST",
           headers: {

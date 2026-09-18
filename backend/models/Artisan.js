@@ -29,6 +29,11 @@ const Artisan = sequelize.define(
       type: DataTypes.STRING(150),
       allowNull: false,
     },
+    
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
 
     note: {
       type: DataTypes.DECIMAL(2, 1),

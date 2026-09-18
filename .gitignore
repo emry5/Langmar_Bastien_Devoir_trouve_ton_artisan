@@ -1,4 +1,6 @@
 trouve-ton-artisan/node_modules/
 trouve-ton-artisan/build/
 trouve-ton-artisan/.env
+backend/.env
+backend/node_modules/
 .DS_Store

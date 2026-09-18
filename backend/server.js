@@ -45,5 +45,11 @@ async function startServer() {
     );
   }
 }
+process.on("uncaughtException", (error) => {
+  console.error("ERREUR NON GÉRÉE :", error);
+});
 
+process.on("unhandledRejection", (error) => {
+  console.error("PROMESSE REJETÉE :", error);
+});
 startServer();

@@ -1,132 +1,105 @@
 const express = require("express");
-const { Contact, Artisan } = require("../models");
-
 const router = express.Router();
+
+const { Artisan, Contact } = require("../models");
+const transporter = require("../config/mail");
 
 router.post("/", async (req, res) => {
   try {
     const { artisanId, nom, email, objet, message } = req.body;
 
     // Vérification de l'identifiant de l'artisan
-    const artisanIdNumber = Number(artisanId);
-
-    if (!Number.isInteger(artisanIdNumber) || artisanIdNumber <= 0) {
+    if (!Number.isInteger(Number(artisanId)) || Number(artisanId) <= 0) {
       return res.status(400).json({
-        message: "L'identifiant de l'artisan est invalide.",
+        message: "Identifiant artisan invalide.",
       });
     }
 
     // Nettoyage des données reçues
-    const nomNettoye = typeof nom === "string" ? nom.trim() : "";
-    const emailNettoye =
-      typeof email === "string" ? email.trim() : "";
-    const objetNettoye =
-      typeof objet === "string" ? objet.trim() : "";
-    const messageNettoye =
-      typeof message === "string" ? message.trim() : "";
+    const nomNettoye = String(nom || "").trim();
+    const emailNettoye = String(email || "").trim();
+    const objetNettoye = String(objet || "").trim();
+    const messageNettoye = String(message || "").trim();
 
-    // Vérification du nom
-    if (!nomNettoye) {
+    // Vérification des champs
+    if (!nomNettoye || nomNettoye.length > 100) {
       return res.status(400).json({
-        message: "Le nom est obligatoire.",
+        message: "Nom invalide.",
       });
     }
 
-    if (nomNettoye.length > 100) {
+    if (
+      !emailNettoye ||
+      emailNettoye.length > 255 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailNettoye)
+    ) {
       return res.status(400).json({
-        message: "Le nom est trop long.",
+        message: "Adresse e-mail invalide.",
       });
     }
 
-    // Vérification de l'email
-    if (!emailNettoye) {
+    if (!objetNettoye || objetNettoye.length > 150) {
       return res.status(400).json({
-        message: "L'adresse email est obligatoire.",
+        message: "Objet invalide.",
       });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(emailNettoye)) {
-      return res.status(400).json({
-        message: "L'adresse email est invalide.",
-      });
-    }
-
-    if (emailNettoye.length > 255) {
-      return res.status(400).json({
-        message: "L'adresse email est trop longue.",
-      });
-    }
-
-    // Vérification de l'objet
-    if (!objetNettoye) {
-      return res.status(400).json({
-        message: "L'objet est obligatoire.",
-      });
-    }
-
-    if (objetNettoye.length > 150) {
-      return res.status(400).json({
-        message: "L'objet est trop long.",
-      });
-    }
-
-    // Vérification du message
-    if (!messageNettoye) {
-      return res.status(400).json({
-        message: "Le message est obligatoire.",
-      });
-    }
-
-    if (messageNettoye.length < 10) {
+    if (!messageNettoye || messageNettoye.length < 10) {
       return res.status(400).json({
         message: "Le message doit contenir au moins 10 caractères.",
       });
     }
 
     // Vérification de l'existence de l'artisan
-    const artisan = await Artisan.findByPk(artisanIdNumber);
+    const artisan = await Artisan.findByPk(artisanId);
 
     if (!artisan) {
       return res.status(404).json({
-        message: "L'artisan demandé n'existe pas.",
+        message: "Artisan introuvable.",
       });
     }
 
-    // Enregistrement du message
+    // Enregistrement du contact en base de données
     const contact = await Contact.create({
-      artisanId: artisanIdNumber,
+      artisanId: artisan.id,
       nom: nomNettoye,
       email: emailNettoye,
       objet: objetNettoye,
       message: messageNettoye,
     });
 
+    // Envoi de l'e-mail à l'artisan
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: artisan.email,
+      replyTo: emailNettoye,
+      subject: objetNettoye,
+      text: `Bonjour,
+
+Vous avez reçu un nouveau message depuis Trouve Ton Artisan.
+
+Nom : ${nomNettoye}
+E-mail : ${emailNettoye}
+Objet : ${objetNettoye}
+
+Message :
+${messageNettoye}
+
+Cordialement,
+Trouve Ton Artisan`,
+    });
+
     res.status(201).json({
-      message: "Message enregistré avec succès.",
-      contact: {
-        id: contact.id,
-        artisanId: contact.artisanId,
-        nom: contact.nom,
-        email: contact.email,
-        objet: contact.objet,
-        message: contact.message,
-        createdAt: contact.createdAt,
-      },
+      message: "Votre message a bien été envoyé.",
+      contact,
     });
   } catch (error) {
-    console.error(
-      "Erreur lors de l'enregistrement du message :",
-      error
-    );
+    console.error("Erreur lors de l'envoi du contact :", error.message);
 
     res.status(500).json({
-      message: "Erreur lors de l'enregistrement du message.",
+      message: "Une erreur est survenue lors de l'envoi du message.",
     });
   }
 });
-
-
 
 module.exports = router;
