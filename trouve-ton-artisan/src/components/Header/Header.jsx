@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/icons/Logo.png";
+import searchIcon from "../../assets/icons/search.svg";
 import "./Header.scss";
 
 function Header() {
@@ -62,7 +63,7 @@ function Header() {
               type="submit"
               aria-label="Lancer la recherche"
             >
-              🔍
+              <img src={searchIcon} alt="" aria-hidden="true" />
             </button>
           </form>
 

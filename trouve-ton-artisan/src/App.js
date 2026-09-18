@@ -10,7 +10,6 @@ import Footer from "./components/Footer/Footer";
 
 function ScrollToHash() {
   const location = useLocation();
-
   useEffect(() => {
     if (location.hash) {
       const element = document.getElementById(

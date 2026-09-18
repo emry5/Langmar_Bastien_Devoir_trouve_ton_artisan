@@ -145,7 +145,12 @@
         filter 0.1s ease,
         background-color 0.2s ease,
         color 0.2s ease;
-
+      
+        img {
+        width: 18px;
+        height: 18px;
+        display: block;
+      }
       &:hover {
         background-color: variables.$blue-primary;
         color: white;
