@@ -11,7 +11,10 @@ const PORT = process.env.PORT || 5001;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "http://laba8455.odns.fr",
+    ],
   })
 );
 app.use(express.json({ limit: "10kb" }));
